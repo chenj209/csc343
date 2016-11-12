@@ -95,12 +95,12 @@ FROM (
 -- Create a view of ValidBooking with years.
 CREATE OR REPLACE VIEW BookingWithYear_q3 AS
 SELECT listingId, startdate, numNights, year
-FROM ValidBooking_q3 JOIN AllYears_q3;
+FROM ValidBooking_q3, AllYears_q3;
 
-SELECT owner AS homeowner, BookingWithYear_q3.listingId AS listingID,
-	   year, Listing.city AS city
+SELECT owner AS homeowner, b3.listingId AS listingID,
+	   year, list.city AS city
 FROM BookingWithYear_q3 b3 JOIN Listing list
 ON b3.listingId = list.listingId
-WHERE VIOLATELAW(b3.listingId, b3.year);
+WHERE VIOLATELAW(b3.listingId, CAST(b3.year as int));
 
 
