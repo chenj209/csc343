@@ -78,7 +78,7 @@ $$ LANGUAGE plpgsql;
 
 -- Create a view to find all valid properties.
 CREATE OR REPLACE VIEW ValidBooking_q3 AS
-SELECT listingId, startdate, numNights
+SELECT DISTINCT listingId
 FROM Booking 
 WHERE NOT OVERLAP(listingId);
 
@@ -94,7 +94,7 @@ FROM (
 
 -- Create a view of ValidBooking with years.
 CREATE OR REPLACE VIEW BookingWithYear_q3 AS
-SELECT listingId, startdate, numNights, year
+SELECT listingId, year
 FROM ValidBooking_q3, AllYears_q3;
 
 SELECT owner AS homeowner, b3.listingId AS listingID,
