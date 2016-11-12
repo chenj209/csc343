@@ -14,7 +14,7 @@ END IF;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE FUNCTION VIOLATELAW(lId int, year int) RETURNS BOOLEAN
+CREATE OR REPLACE FUNCTION VIOLATELAW(lId int, year int) RETURNS BOOLEAN
 AS $$
 BEGIN
 	IF EXISTS 
@@ -67,9 +67,9 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION CheckExceed(total int, days int, type char(3))  
 	RETURNS BOOLEAN AS $$
 BEGIN
-	IF (type == 'max') and (total > days)
+	IF (type = 'max') and (total > days)
 	THEN RETURN TRUE;
-	ELSIF (type == 'min') and (total < days)
+	ELSIF (type = 'min') and (total < days)
  	THEN RETURN TRUE;
  	ELSE RETURN FALSE;
 	END IF; 
