@@ -68,6 +68,7 @@ BEGIN
 	     WHERE Listing.listingId = lId 
 	     AND (Listing.propertyType = CityRegulation.propertyType 
 	     		OR CityRegulation.propertyType = NULL) 
+	     AND Listing.city = CityRegulation.city
 	     AND CheckExceed(CalculateDays(lId, year), days, RegulationType))
 	THEN RETURN TRUE;
 	ELSE RETURN FALSE;
