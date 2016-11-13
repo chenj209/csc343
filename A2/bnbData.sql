@@ -50,7 +50,6 @@ INSERT INTO BookingRequest VALUES (6010, 1002, 3001, '2016-01-10', 10, 1, 75);
 --test
 INSERT INTO Booking VALUES (3000, '2016-10-05', 1000, 2, 1, 90);
 INSERT INTO Booking VALUES (3001, '2016-01-05', 1001, 5, 1, 120);
-INSERT INTO Booking VALUES (3000, '2016-10-03', 1002, 5, 1, 225);
 
 -- test 
 
@@ -59,7 +58,9 @@ INSERT INTO HomeownerRating VALUES (3000, '2016-10-05', 5, 'cmt1');
 INSERT INTO HomeownerRating VALUES (3001, '2016-01-05', 3, 'cmt2');
 
 INSERT INTO CityRegulation VALUES ('c1', 'condo', 'min', 30);
-INSERT INTO CityRegulation VALUES ('c2', 'house', 'max', 90);
+
+INSERT INTO CityRegulation VALUES ('c2', 'house', 'max', 1);
+INSERT INTO CityRegulation VALUES ('c2', 'house', 'min', 10);
 
 INSERT INTO TravelerRating VALUES (3000, '2016-10-05', 5, 'cmt3');
 
