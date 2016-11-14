@@ -37,10 +37,10 @@ BEGIN
 		 	and startdate + numNights > endOfYear
 		 	and startdate >= startOfYear)
 		UNION
-		(SELECT (startdate - startOfYear + 1) as day
+		(SELECT (startdate + numNights - startOfYear + 1) as day
 		 FROM Booking
 		 WHERE listingId = $1 
-		 	and startdate + numNights > startOfYear
+		 	and startdate + numNights >= startOfYear
 		 	and startdate < startOfYear)
 	) totaldays;
 	RETURN numDays;
