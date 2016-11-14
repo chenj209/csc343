@@ -37,7 +37,7 @@ HAVING city = (
 		ON BookingRequest.listingId = Listing.listingId
 		WHERE travelerId = B.travelerId
 		GROUP BY city
-		ORDER BY city ASC, count(B.listingId) DESC
+		ORDER BY count(BookingRequest.listingId) DESC, city ASC 
 		LIMIT 1
 			);
 
@@ -49,4 +49,4 @@ WHERE numRequests >= (
 	SELECT (10 * avg(numRequests)) AS tentimesavg
 	FROM TotalInfo_q2
 	)
-ORDER BY name ASC, numRequests DESC;
+ORDER BY numRequests DESC, name ASC;
