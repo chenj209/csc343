@@ -40,9 +40,12 @@ INSERT INTO Booking VALUES (3003, '2016-02-06', 1001, 5, 1, 120);
 -- Testing span of days across years.
 INSERT INTO Homeowner VALUES (4004, 'hn5', 'hf5', 'hfn5@domain.com');
 INSERT INTO Listing VALUES (3004, 'house', 2, 4, 'gym', 'c5', 4004);
-INSERT INTO CityRegulation VALUES ('c5', 'house', 'max', 1);
+INSERT INTO CityRegulation VALUES ('c5', 'house', 'max', 4);
 INSERT INTO Booking VALUES (3004, '2015-12-31', 1001, 2, 1, 120);
 INSERT INTO Booking VALUES (3004, '2016-01-02', 1001, 1, 1, 120);
+INSERT INTO Booking VALUES (3004, '2016-12-30', 1001, 5, 1, 120);
+
+
 
 
 
