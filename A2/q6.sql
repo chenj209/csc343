@@ -12,14 +12,16 @@ SELECT travelerId, listingId
 FROM Booking
 GROUP BY travelerId, listingId;
 
--- Create a view to find non-committed travelers.
-CREATE OR REPLACE VIEW NonCommitted AS
-(SELECT * FROM TravelerRequest) EXCEPT (SELECT * FROM TravelerBooking);
+-- Create a view to find invalid travelers.
+CREATE OR REPLACE VIEW Invalid AS
+((SELECT * FROM TravelerRequest) EXCEPT (SELECT * FROM TravelerBooking))
+UNION
+((SELECT * FROM TravelerBooking) EXCEPT (SELECT * FROM TravelerRequest));
 
 SELECT b.travelerId AS travelerID, surname, count(listingId) AS numListings
 FROM Booking b LEFT JOIN Traveler t
 ON b.travelerId = t.travelerId
 WHERE b.travelerId NOT IN (
-	SELECT travelerId FROM NonCommitted)
+	SELECT travelerId FROM Invalid)
 GROUP BY b.travelerId, surname
 ORDER BY b.travelerID ASC;
