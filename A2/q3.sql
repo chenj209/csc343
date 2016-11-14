@@ -52,8 +52,8 @@ CREATE OR REPLACE FUNCTION CheckExceed(total int, days int, type char(3))
 BEGIN
 	IF (type = 'max') and (total > days)
 	THEN RETURN TRUE;
-	ELSIF (type = 'min') and (total < days)
- 	THEN RETURN TRUE;
+	ELSIF (type = 'min')
+ 	THEN RETURN FALSE;
  	ELSE RETURN FALSE;
 	END IF; 
 END;
@@ -65,11 +65,26 @@ BEGIN
 	IF EXISTS 
 		(SELECT * 
 	     FROM CityRegulation, Listing
-	     WHERE Listing.listingId = lId 
+	     WHERE Listing.listingId = $1 
 	     AND (Listing.propertyType = CityRegulation.propertyType 
 	     		OR CityRegulation.propertyType = NULL) 
 	     AND Listing.city = CityRegulation.city
-	     AND CheckExceed(CalculateDays(lId, year), days, RegulationType))
+	     AND(
+		     	CheckExceed(CalculateDays($1, $2), days, RegulationType)
+			 		OR
+			 	(
+			 		RegulationType = 'min' 
+			 		AND EXISTS (
+				 		SELECT *
+				 		FROM Booking
+				 		WHERE extract(year from startdate) = $2
+				 			AND Booking.listingId = $1
+				 			AND numNights < days)
+			 	)
+			)
+
+	    )
+
 	THEN RETURN TRUE;
 	ELSE RETURN FALSE;
 	END IF;
@@ -102,6 +117,7 @@ SELECT owner AS homeowner, b3.listingId AS listingID,
 	   year, list.city AS city
 FROM BookingWithYear_q3 b3 JOIN Listing list
 ON b3.listingId = list.listingId
-WHERE VIOLATELAW(b3.listingId, CAST(b3.year as int));
+WHERE VIOLATELAW(b3.listingId, CAST(b3.year as int))
+ORDER BY owner ASC;
 
 
