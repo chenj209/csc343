@@ -16,9 +16,6 @@ INSERT INTO Homeowner VALUES (4001, 'hn2', 'hf2', 'hfn2@domain.com');
 INSERT INTO Listing VALUES (3000, 'condo', 2, 4, 'gym', 'c1', 4000);
 INSERT INTO Listing VALUES (3001, 'house', 2, 4, 'gym', 'c2', 4001);
 
-INSERT INTO HomeownerRating VALUES (3000, '2016-10-05', 5, 'cmt1');
-INSERT INTO HomeownerRating VALUES (3001, '2016-01-05', 3, 'cmt2');
-
 INSERT INTO CityRegulation VALUES ('c1', 'condo', 'min', 30);
 INSERT INTO CityRegulation VALUES ('c2', 'house', 'max', 90);
 
@@ -39,15 +36,15 @@ INSERT INTO Booking VALUES (3001, '2014-01-05', 1001, 5, 1, 120);
 INSERT INTO Booking VALUES (3001, '2012-01-05', 1001, 5, 1, 120);
 INSERT INTO Booking VALUES (3001, '2011-01-05', 1001, 5, 1, 120);
 
--- Add 10 TravelerRating record, 4000 has three 5 star, one 2 star and one 1 star.
+-- Add 10 TravelerRating record, 4000 has three 5 star, one 4 star and one 1 star.
 INSERT INTO TravelerRating VALUES (3000, '2016-10-05', 5, 'cmt3');
 INSERT INTO TravelerRating VALUES (3000, '2013-01-01', 5, 'cmt3');
 INSERT INTO TravelerRating VALUES (3000, '2014-10-05', 5, 'cmt3');
-INSERT INTO TravelerRating VALUES (3000, '2012-10-05', 2, 'cmt3');
+INSERT INTO TravelerRating VALUES (3000, '2012-10-05', 4, 'cmt3');
 INSERT INTO TravelerRating VALUES (3000, '2011-10-05', 1, 'cmt3');
--- 4001 has two 5 star, three 4 star.
-INSERT INTO TravelerRating VALUES (3001, '2016-01-05', 5, 'cmt3');
-INSERT INTO TravelerRating VALUES (3001, '2015-01-05', 5, 'cmt3');
+-- 4001 has two 1 star, three 4 star.
+INSERT INTO TravelerRating VALUES (3001, '2016-01-05', 1, 'cmt3');
+INSERT INTO TravelerRating VALUES (3001, '2015-01-05', 1, 'cmt3');
 INSERT INTO TravelerRating VALUES (3001, '2014-01-05', 4, 'cmt3');
 INSERT INTO TravelerRating VALUES (3001, '2012-01-05', 4, 'cmt3');
 INSERT INTO TravelerRating VALUES (3001, '2011-01-05', 4, 'cmt3');
