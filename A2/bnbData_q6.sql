@@ -23,15 +23,15 @@ INSERT INTO Booking VALUES (3001, '2016-01-02', 1000, 5, 1, 120);
 
 -- A commited traveler 1001 with several booking requests and a booking.
 INSERT INTO Traveler VALUES (1001, 'n2', 'f2', 'fn2@domain.com');
-INSERT INTO BookingRequest VALUES (6000, 1001, 3000, '2016-10-05', 2, 1, 100);
-INSERT INTO BookingRequest VALUES (6000, 1001, 3000, '2016-10-05', 2, 1, 100);
-INSERT INTO BookingRequest VALUES (6000, 1001, 3000, '2016-10-05', 2, 1, 100);
+INSERT INTO BookingRequest VALUES (6002, 1001, 3000, '2016-10-05', 2, 1, 100);
+INSERT INTO BookingRequest VALUES (6003, 1001, 3000, '2016-10-05', 2, 1, 100);
+INSERT INTO BookingRequest VALUES (6004, 1001, 3000, '2016-10-05', 2, 1, 100);
 INSERT INTO Booking VALUES (3000, '2016-01-03', 1001, 5, 1, 120);
 
 -- A non commited traveler 1002 with one successful booking.
 INSERT INTO Traveler VALUES (1002, 'n3', 'f3', 'fn3@domain.com');
-INSERT INTO BookingRequest VALUES (6000, 1001, 3001, '2016-10-05', 2, 1, 100);
-INSERT INTO BookingRequest VALUES (6000, 1001, 3000, '2016-10-05', 2, 1, 100);
+INSERT INTO BookingRequest VALUES (6005, 1001, 3001, '2016-10-05', 2, 1, 100);
+INSERT INTO BookingRequest VALUES (6006, 1001, 3000, '2016-10-05', 2, 1, 100);
 INSERT INTO Booking VALUES (3000, '2016-01-04', 1002, 5, 1, 120);
 
 -- A non commited traveler 1003 who has done nothing.
