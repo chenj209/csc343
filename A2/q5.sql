@@ -42,16 +42,15 @@ GROUP BY owner;
 
 -- Query for all kinds of ratings
 SELECT homeownerID, 
-	sum(FiveStars.count) as r5, sum(FourStars.count) as r4,
-	sum(ThreeStars.count) as r3, sum(TwoStars.count) as r2,
-	sum(OneStars.count) as r1
-FROM FiveStars FULL JOIN FourStars ON FiveStars.owner = FourStars.owner
-	FULL JOIN ThreeStars ON FiveStars.owner = ThreeStars.owner
-	FULL JOIN TwoStars ON FiveStars.owner = TwoStars.owner
-	FULL JOIN OneStars ON FiveStars.owner = OneStars.owner
-	RIGHT JOIN (SELECT homeownerID FROM Homeowner) hID
-		ON homeownerID = FiveStars.owner
-GROUP BY homeownerID
+	FiveStars.count as r5, FourStars.count as r4,
+	ThreeStars.count as r3, TwoStars.count as r2,
+	OneStars.count as r1
+FROM (SELECT homeownerID FROM Homeowner) hID LEFT JOIN FiveStars
+	ON homeownerID = FiveStars.owner 
+	FULL JOIN FourStars ON homeownerID = FourStars.owner
+	FULL JOIN ThreeStars ON homeownerID = ThreeStars.owner
+	FULL JOIN TwoStars ON homeownerID = TwoStars.owner
+	FULL JOIN OneStars ON homeownerID = OneStars.owner
 ORDER BY r5 DESC NULLS LAST, 
 	r4 DESC NULLS LAST, 
 	r3 DESC NULLS LAST, 
