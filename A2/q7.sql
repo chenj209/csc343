@@ -17,7 +17,7 @@ WHERE ((avgPrice - price) ::real/ avgPrice) >= 0.25;
 CREATE OR REPLACE VIEW GoodBargainer AS
 SELECT travelerId, max(bargainPercentage) AS maxBargainPercentage
 FROM BargainPer
-GROUP BY travelerId;
+GROUP BY travelerId
 HAVING count(listingId) >= 3;
 
 SELECT bp.travelerId AS travelerID, 

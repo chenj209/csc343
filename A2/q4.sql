@@ -13,7 +13,8 @@ FROM ValidContributor_q4 v1 JOIN ValidContributor_q4 v2
 ON v1.owner = v2.owner AND v1.year < v2.year
 WHERE v1.avgRating > v2.avgRating;
 
-SELECT to_char((count(distinct v.owner) - count(distinct n.owner))::real / count(distinct v.owner) * 100, '999.99') || '%' AS percentage
+SELECT (((count(distinct v.owner) - count(distinct n.owner))::real 
+	/ count(distinct v.owner)) * 100) ::int AS percentage
 FROM ValidContributor_q4 v FULL JOIN NonImproveOwner_q4 n
 ON v.owner = n.owner;
 

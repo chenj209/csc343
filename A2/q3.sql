@@ -144,7 +144,7 @@ SELECT listingId, year
 FROM ValidBooking_q3, AllYears_q3;
 
 SELECT owner AS homeowner, b3.listingId AS listingID,
-	   year, list.city AS city
+	   year::int, list.city AS city
 FROM BookingWithYear_q3 b3 JOIN Listing list
 ON b3.listingId = list.listingId
 WHERE VIOLATELAW(b3.listingId, CAST(b3.year as int))

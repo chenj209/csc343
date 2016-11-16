@@ -16,7 +16,7 @@ GROUP BY travelerId;
 CREATE OR REPLACE VIEW TotalInfo_q2 AS
 SELECT Traveler.travelerId, 
   	   (surname || ' ' || firstname) AS name, 
-  	   coalesce(email, 'unknown') AS email, 
+  	   coalesce(email, 'unknown')::varchar AS email, 
        coalesce(numRequests, 0) AS numRequests, 
        coalesce(numBooking, 0) AS numBooking
 FROM (
