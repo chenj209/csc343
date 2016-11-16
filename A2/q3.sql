@@ -22,39 +22,49 @@ DECLARE
 	startOfYear date;
 	numDays int;
 BEGIN
-	endOfYear := to_date(to_char(year, '9999') || '-12-31', 'YYYY-MM-DD');
-	startOfYear := to_date(to_char(year, '9999') || '-01-01', 'YYYY-MM-DD');
+	endOfYear := to_date(to_char($2, '9999') || '-12-31', 'YYYY-MM-DD');
+	startOfYear := to_date(to_char($2, '9999') || '-01-01', 'YYYY-MM-DD');
 	SELECT sum(day) INTO numDays FROM (
-		(SELECT numNights as day
+		(-- startofyear <= start < end <= endofyear
+		 SELECT numNights as day
 		 FROM Booking
 		 WHERE listingId = $1 
-		 	and startdate + numNights <= endOfYear
-		 	and startdate >= startOfYear)
+		 	AND startdate >= startOfYear
+		 	AND startdate + numNights <= endOfYear
+		)
 		UNION
-		(SELECT (endOfYear - startdate + 1) as day
+		(-- startofyear <= start <= endofyear < end
+		 SELECT (endOfYear - startdate + 1) as day
 		 FROM Booking
 		 WHERE listingId = $1 
-		 	and startdate + numNights > endOfYear
-		 	and startdate >= startOfYear)
+		 	AND startdate >= startOfYear
+		 	AND startdate <= endOfYear
+		 	AND startdate + numNights > endOfYear
+		)
 		UNION
-		(SELECT (startdate + numNights - startOfYear + 1) as day
+		(-- start < startofyear <= end <= endofyear
+		 SELECT ((startdate + numNights)::date - startOfYear + 1) as day
 		 FROM Booking
 		 WHERE listingId = $1 
-		 	and startdate + numNights >= startOfYear
-		 	and startdate < startOfYear)
+		 	AND startdate < startOfYear
+		 	AND startdate + numNights >= startOfYear
+		 	AND startdate + numNights <= endOfYear
+		)
 		UNION
-		(SELECT (endOfYear - startOfYear + 1) as day
+		(-- start < startofyear < endofyear < end
+		 SELECT (endOfYear::date - startOfYear + 1) as day
 		 FROM Booking
 		 WHERE listingId = $1 
-		 	and startdate + numNights >= endOfYear
-		 	and startdate < startOfYear)
+		 	AND startdate < startOfYear
+		 	AND startdate + numNights > endOfYear
+		)
 
 	) totaldays;
 	RETURN numDays;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION CheckExceed(total int, days int, type char(3))  
+CREATE OR REPLACE FUNCTION CheckMax(total int, days int, type char(3))  
 	RETURNS BOOLEAN AS $$
 BEGIN
 	IF (type = 'max') and (total > days)
@@ -66,7 +76,26 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION VIOLATELAW(lId int, year int) RETURNS BOOLEAN
+CREATE OR REPLACE FUNCTION CheckMin(listingId int, year int, days int, type char(3))  
+	RETURNS BOOLEAN AS $$
+BEGIN
+	IF ($4 = 'min') 
+	AND EXISTS (
+		 		SELECT *
+		 		FROM Booking
+		 		WHERE extract(year from startdate) = $2
+		 			AND Booking.listingId = $1
+		 			AND numNights < $3
+		 		)
+	THEN RETURN TRUE;
+	ELSIF (type = 'max')
+ 	THEN RETURN FALSE;
+ 	ELSE RETURN FALSE;
+	END IF; 
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION VIOLATELAW(listingId int, year int) RETURNS BOOLEAN
 AS $$
 BEGIN
 	IF EXISTS 
@@ -77,17 +106,9 @@ BEGIN
 	     		OR CityRegulation.propertyType = NULL) 
 	     AND Listing.city = CityRegulation.city
 	     AND(
-		     	CheckExceed(CalculateDays($1, $2), days, RegulationType)
+		     	CheckMax(CalculateDays($1, $2), days, RegulationType)
 			 		OR
-			 	(
-			 		RegulationType = 'min' 
-			 		AND EXISTS (
-				 		SELECT *
-				 		FROM Booking
-				 		WHERE extract(year from startdate) = $2
-				 			AND Booking.listingId = $1
-				 			AND numNights < days)
-			 	)
+			 	CheckMin($1, $2, days, RegulationType)
 			)
 
 	    )
@@ -112,8 +133,9 @@ FROM (
 	(SELECT extract(year FROM startdate) AS year
 	FROM Booking) 
 	UNION
-	(SELECT extract(year FROM (Startdate + numNights)) AS year
+	(SELECT extract(year FROM (startdate + numNights)) AS year
 	FROM Booking)) BookingYear;
+	
 
 -- Create a view of ValidBooking with years.
 CREATE OR REPLACE VIEW BookingWithYear_q3 AS
