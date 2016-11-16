@@ -18,7 +18,7 @@ CREATE OR REPLACE VIEW Invalid AS
 UNION
 ((SELECT * FROM TravelerBooking) EXCEPT (SELECT * FROM TravelerRequest));
 
-SELECT b.travelerId AS travelerID, surname, count(listingId) AS numListings
+SELECT b.travelerId AS travelerID, surname, count(distinct listingId) AS numListings
 FROM Booking b LEFT JOIN Traveler t
 ON b.travelerId = t.travelerId
 WHERE b.travelerId NOT IN (
