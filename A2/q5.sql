@@ -51,11 +51,11 @@ FROM (SELECT homeownerID FROM Homeowner) hID LEFT JOIN FiveStars
 	FULL JOIN ThreeStars ON homeownerID = ThreeStars.owner
 	FULL JOIN TwoStars ON homeownerID = TwoStars.owner
 	FULL JOIN OneStars ON homeownerID = OneStars.owner
-ORDER BY r5 DESC NULLS LAST, 
-	r4 DESC NULLS LAST, 
-	r3 DESC NULLS LAST, 
-	r2 DESC NULLS LAST, 
-	r1 DESC NULLS LAST, 
+ORDER BY r5 DESC, 
+	r4 DESC, 
+	r3 DESC, 
+	r2 DESC, 
+	r1 DESC, 
 	homeownerID ASC ;
 
 
