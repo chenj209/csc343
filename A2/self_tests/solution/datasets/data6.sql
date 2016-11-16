@@ -19,9 +19,6 @@ INSERT INTO Listing VALUES (3000, 'condo', 2, 4, 'gym', 'c1', 4000);
 INSERT INTO Listing VALUES (3001, 'house', 2, 4, 'gym', 'c2', 4001);
 INSERT INTO Listing VALUES (3002, 'house', 2, 4, 'gym', 'c2', 4003);
 
-INSERT INTO BookingRequest VALUES (6003, 1001, 3000, '2015-10-05', 1, 1, 75);
-INSERT INTO BookingRequest VALUES (6000, 1000, 3000, '2016-10-16', 2, 1, 100);
-INSERT INTO BookingRequest VALUES (6001, 1000, 3000, '2016-11-16', 4, 1, 120);
 INSERT INTO BookingRequest VALUES (6002, 1001, 3001, '2016-01-05', 1, 1, 75);
 INSERT INTO BookingRequest VALUES (6004, 1001, 3002, '2015-11-05', 1, 1, 75);
 INSERT INTO BookingRequest VALUES (6005, 1001, 3002, '2015-11-09', 1, 1, 75);
