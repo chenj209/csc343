@@ -48,5 +48,5 @@ FROM TotalInfo_q2 JOIN listingIdCity_q2
 WHERE numRequests >= (
 	SELECT (10 * avg(numRequests)) AS tentimesavg
 	FROM TotalInfo_q2
-	)
+	) AND numBooking = 0
 ORDER BY numRequests DESC, name ASC;
