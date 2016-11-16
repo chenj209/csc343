@@ -105,14 +105,9 @@ BEGIN
 	     AND (Listing.propertyType = CityRegulation.propertyType 
 	     		OR CityRegulation.propertyType = NULL) 
 	     AND Listing.city = CityRegulation.city
-	     AND(
-		     	CheckMax(CalculateDays($1, $2), days, RegulationType)
-			 		OR
-			 	CheckMin($1, $2, days, RegulationType)
-			)
-
+	     AND CheckMax(CalculateDays($1, $2), days, RegulationType)
+			OR CheckMin($1, $2, days, RegulationType)
 	    )
-
 	THEN RETURN TRUE;
 	ELSE RETURN FALSE;
 	END IF;
@@ -133,8 +128,12 @@ FROM (
 	(SELECT extract(year FROM startdate) AS year
 	FROM Booking) 
 	UNION
-	(SELECT extract(year FROM (startdate + numNights)) AS year
-	FROM Booking)) BookingYear;
+	(SELECT extract(year FROM (startdate)) + 1 AS year
+	FROM Booking)
+	UNION
+	(SELECT extract(year FROM (startdate)) + 2 AS year
+	FROM Booking)
+	) BookingYear;
 	
 
 -- Create a view of ValidBooking with years.
