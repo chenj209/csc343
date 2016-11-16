@@ -43,7 +43,7 @@ BEGIN
 		)
 		UNION
 		(-- start < startofyear <= end <= endofyear
-		 SELECT ((startdate + numNights)::date - startOfYear + 1) as day
+		 SELECT ((startdate + numNights) - startOfYear) as day
 		 FROM Booking
 		 WHERE listingId = $1 
 		 	AND startdate < startOfYear
@@ -52,7 +52,7 @@ BEGIN
 		)
 		UNION
 		(-- start < startofyear < endofyear < end
-		 SELECT (endOfYear::date - startOfYear + 1) as day
+		 SELECT (endOfYear - startOfYear + 1) as day
 		 FROM Booking
 		 WHERE listingId = $1 
 		 	AND startdate < startOfYear
@@ -64,9 +64,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION CheckMax(total int, days int, type char(3))  
+CREATE OR REPLACE FUNCTION CheckMax(listingId int, year int, days int, type char(3))  
 	RETURNS BOOLEAN AS $$
+DECLARE total int;
 BEGIN
+	total := CalculateDays($1, $2);
 	IF (type = 'max') and (total > days)
 	THEN RETURN TRUE;
 	ELSIF (type = 'min')
@@ -105,8 +107,8 @@ BEGIN
 	     AND (Listing.propertyType = CityRegulation.propertyType 
 	     		OR CityRegulation.propertyType = NULL) 
 	     AND Listing.city = CityRegulation.city
-	     AND CheckMax(CalculateDays($1, $2), days, RegulationType)
-			OR CheckMin($1, $2, days, RegulationType)
+	     AND (CheckMax($1, $2, days, RegulationType)
+			OR CheckMin($1, $2, days, RegulationType))
 	    )
 	THEN RETURN TRUE;
 	ELSE RETURN FALSE;
