@@ -7,7 +7,6 @@ SELECT travelerId, extract(year FROM startdate) as year,
 FROM BookingRequest
 WHERE (extract(year FROM startdate) > extract(year FROM current_date) - 10 
 AND extract(year FROM startdate) <= extract(year FROM current_date))
-OR startdate IS NULL
 GROUP BY travelerId, extract(year FROM startdate);
 
 -- View for number of booking for each traveler each year
@@ -17,7 +16,6 @@ SELECT travelerId, extract(year FROM startdate) as year,
 FROM Booking
 WHERE (extract(year FROM startdate) > extract(year FROM current_date) - 10 
 AND extract(year FROM startdate) <= extract(year FROM current_date))
-OR startdate IS NULL
 GROUP BY travelerId, extract(year FROM startdate);
 
 -- View for all travelers that has either booked or request in the
