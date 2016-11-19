@@ -102,8 +102,8 @@ public class Assignment2 {
       // Implement this method!
 	   
 	  // Query1 finds if there exists this request. If exists, reports its listingId.
-	  String query1= "SELECT startdate, listingId, travelerId, numGuests FROM Bookingrequests "
-	  		+ "WHERE requestId = ? AND startdate = ? AND price = ?;";
+	  String query1= "SELECT startdate, listingId, travelerId, numGuests FROM Bookingrequest "
+	  		+ "WHERE requestId = ? AND startdate = ? AND offerprice = ?;";
       PreparedStatement statement1 = this.connection.prepareStatement(query1);
       statement1.setInt(1, requestId);
       statement1.setDate(2, new java.sql.Date(start.getTime()));
@@ -111,10 +111,10 @@ public class Assignment2 {
       
       ResultSet result1 = statement1.executeQuery();
       if (result1.next()) {
-    	  java.sql.Date date = result1.getDate(0);
-    	  int listingId = result1.getInt(1);
-    	  int travelerId = result1.getInt(2);
-    	  int numGuests = result1.getInt(3);
+    	  java.sql.Date date = result1.getDate(1);
+    	  int listingId = result1.getInt(2);
+    	  int travelerId = result1.getInt(3);
+    	  int numGuests = result1.getInt(4);
     	  // Query2 finds if corresponding booking already exists in Booking.
     	  String query2 = "SELECT * FROM Booking WHERE listingId = ? AND startdate = ?;";
           PreparedStatement statement2 = this.connection.prepareStatement(query2);
@@ -124,7 +124,7 @@ public class Assignment2 {
           ResultSet result2 = statement2.executeQuery();
           if(!result2.next()) {
         	  // Insert a new Booking if Booking does not exist in Booking.
-        	  String query3 = "INSERT INTO Booing VALUES(?, ?, ?, ?, ?, ?);";
+        	  String query3 = "INSERT INTO Booking VALUES(?, ?, ?, ?, ?, ?);";
         	  PreparedStatement statement3 = this.connection.prepareStatement(query3);
         	  statement3.setInt(1, listingId);
         	  statement3.setDate(2, date);
@@ -147,13 +147,13 @@ public class Assignment2 {
       Assignment2 a2;
       try {
 		    a2 = new Assignment2();
-		    String URL = "jdbc:postgresql://localhost:5432/csc343h-wucheng7";
-		    a2.connectDB(URL, "wucheng7", "tW697196");
+		    String URL = "jdbc:postgresql://localhost:5432/csc343h-chenj209";
+		    a2.connectDB(URL, "chenj209", "Chenjianda9512");
 		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		    java.util.Date start;
 			try {
 				start = formatter.parse("2015/01/01");
-				a2.booking(1000, start, 5, 2);
+				a2.booking(1000, start, 5, 100);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
