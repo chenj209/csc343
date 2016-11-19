@@ -155,20 +155,20 @@ public class Assignment2 {
 		    a2 = new Assignment2();
 		    String URL = "jdbc:postgresql://localhost:5432/csc343h-chenj209";
 		    a2.connectDB(URL, "chenj209", "Chenjianda9512");
-		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		    java.util.Date start;
 		    System.out.println("These are requests:");
-		    String query4 = "SELECT * FROM BookingRequests";
+		    String query4 = "SELECT * FROM BookingRequest";
 	        PreparedStatement statement4 = a2.connection.prepareStatement(query4);
 	        ResultSet requests = statement4.executeQuery();
 	        
 	        while (requests.next()) {
-	        	System.out.println("requestId: " + requests.getInt(1)
-	        	+ "travelerId: " + requests.getInt(2)
-	        	+ "listingId: " + requests.getInt(3)
-	        	+ "startdate: " + formatter.format(requests.getDate(4))
-	        	+ "numNights: " + requests.getInt(5)
-	        	+ "numGuests: " + requests.getInt(6)
+	        	System.out.println("requestId: " + requests.getInt(1) + " "
+	        	+ "travelerId: " + requests.getInt(2) + " "
+	        	+ "listingId: " + requests.getInt(3)+ " "
+	        	+ "startdate: " + formatter.format(requests.getDate(4)) + " "
+	        	+ "numNights: " + requests.getInt(5) + " "
+	        	+ "numGuests: " + requests.getInt(6) + " "
 	        	+ "offerprice: " + requests.getInt(7));
 	        }
 	        
