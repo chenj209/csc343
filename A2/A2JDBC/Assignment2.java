@@ -45,7 +45,7 @@ public class Assignment2 {
 		this.connection = DriverManager.getConnection(URL, username, password);
 		String setpath = "SET search_path TO bnb, public;";
 		PreparedStatement statement = this.connection.prepareStatement(setpath);
-		statement.executeQuery();
+		statement.execute();
 		return true;
 	  } catch (SQLException se) {
 			// TODO Auto-generated catch block
