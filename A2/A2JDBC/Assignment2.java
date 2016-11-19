@@ -2,6 +2,8 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+//test
+import java.util.Scanner; 
 
 // If you are looking for Java data structures, these are highly useful.
 // Remember that an important part of your mark is for doing as much in SQL (not Java) as you can.
@@ -41,6 +43,9 @@ public class Assignment2 {
       // Implement this method!
 	  try {
 		this.connection = DriverManager.getConnection(URL, username, password);
+		String setpath = "SET search_path TO bnb, public;";
+		PreparedStatement statement = this.connection.prepareStatement(setpath);
+		statement.executeQuery();
 		return true;
 	  } catch (SQLException se) {
 			// TODO Auto-generated catch block
@@ -80,6 +85,7 @@ public class Assignment2 {
     */
    public ArrayList homeownerRecommendation(int homeownerID) {
       // Implement this method!
+	  
       return null;
    }
 
@@ -103,11 +109,11 @@ public class Assignment2 {
 	   
 	  // Query1 finds if there exists this request. If exists, reports its listingId.
 	  String query1= "SELECT startdate, listingId, travelerId, numGuests FROM Bookingrequest "
-	  		+ "WHERE requestId = ? AND startdate = ? AND offerprice = ?;";
+	  		+ "WHERE requestId = ?;";
       PreparedStatement statement1 = this.connection.prepareStatement(query1);
       statement1.setInt(1, requestId);
-      statement1.setDate(2, new java.sql.Date(start.getTime()));
-      statement1.setInt(3, price);
+//      statement1.setDate(2, new java.sql.Date(start.getTime()));
+//      statement1.setInt(3, price);
       
       ResultSet result1 = statement1.executeQuery();
       if (result1.next()) {
@@ -151,9 +157,38 @@ public class Assignment2 {
 		    a2.connectDB(URL, "chenj209", "Chenjianda9512");
 		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		    java.util.Date start;
+		    System.out.println("These are requests:");
+		    String query4 = "SELECT * FROM BookingRequests";
+	        PreparedStatement statement4 = a2.connection.prepareStatement(query4);
+	        ResultSet requests = statement4.executeQuery();
+	        
+	        while (requests.next()) {
+	        	System.out.println("requestId: " + requests.getInt(1)
+	        	+ "travelerId: " + requests.getInt(2)
+	        	+ "listingId: " + requests.getInt(3)
+	        	+ "startdate: " + formatter.format(requests.getDate(4))
+	        	+ "numNights: " + requests.getInt(5)
+	        	+ "numGuests: " + requests.getInt(6)
+	        	+ "offerprice: " + requests.getInt(7));
+	        }
+	        
+		    Scanner scan = new Scanner(System.in);
+		    System.out.println("enter requestid:");
+		    int requestid = scan.nextInt();
+		    System.out.println("enter startdate:");
+		    String startdate = scan.next();
+		    System.out.println("enter numNights:");
+		    int numNights = scan.nextInt();
+		    System.out.println("enter price:");
+		    int price = scan.nextInt();
+		    scan.close();
 			try {
-				start = formatter.parse("2015/01/01");
-				a2.booking(1000, start, 5, 100);
+				start = formatter.parse(startdate);
+				if (a2.booking(requestid, start, numNights, price)) {
+					System.out.println("Booked successfully at price: " + price);
+				} else {
+					System.out.println("Cannot book.");
+				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
