@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 // If you are looking for Java data structures, these are highly useful.
@@ -144,15 +146,25 @@ public class Assignment2 {
       System.out.println("Boo!");
       Assignment2 a2;
       try {
-		a2 = new Assignment2();
+		    a2 = new Assignment2();
+		    String URL = "jdbc:postgresql://localhost:5432/csc343h-";
+		    a2.connectDB(URL, "wucheng7", "tW697196");
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		    java.util.Date start;
+			try {
+				start = formatter.parse("2015/01/01");
+				a2.booking(1000, start, 5, 2);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
       } catch (SQLException e) {
-		// TODO Auto-generated catch block
-		System.err.println("SQL Exception." +
+		  // TODO Auto-generated catch block
+		  System.err.println("SQL Exception." +
 	            "<Message>: " + e.getMessage());
       }
       
-      string URL = "jdbc:postgresql://localhost:5432/csc343h-";
-      a2.connectDB(, wucheng7, tW697196);
+      
       
    }
 
