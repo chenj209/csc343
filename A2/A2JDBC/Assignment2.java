@@ -67,6 +67,7 @@ public class Assignment2 {
 		return true;
 	} catch (SQLException se) {
 		// TODO Auto-generated catch block
+		System.out.println("2");
 		System.err.println("SQL Exception." +
                 "<Message>: " + se.getMessage());
 	}
@@ -195,6 +196,7 @@ public class Assignment2 {
 			}
       } catch (SQLException e) {
 		  // TODO Auto-generated catch block
+    	  System.out.println("1");
 		  System.err.println("SQL Exception." +
 	            "<Message>: " + e.getMessage());
       }
