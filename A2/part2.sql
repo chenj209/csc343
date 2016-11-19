@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW TravelerOwnerRating AS
 SELECT travelerId, owner AS homeownerId, rating 
 FROM TravelerRating T JOIN Booking B
 	ON T.listingId = B.listingId AND T.startdate = B.startdate
-JOIN Listing ON TravelerRating.listingId = Listing.listingId;
+JOIN Listing ON T.listingId = Listing.listingId;
 
 CREATE OR REPLACE VIEW AvgRatingMaxtirx AS
 SELECT T1.travelerId, T1.homeownerId, (SELECT avg(rating) AS AvgRating
