@@ -14,7 +14,7 @@ SELECT T1.travelerId, T1.homeownerId, (SELECT avg(rating) AS AvgRating
 								       WHERE travelerId = T1.travelerId AND homeownerId = T1.homeownerId
 								       GROUP BY travelerId, homeownerId
 								       ) 
-FROM TravelerOwnerMatrix T1
+FROM TravelerOwnerMatrix T1;
 
 SELECT * FROM AvgRatingMaxtirx;
 
