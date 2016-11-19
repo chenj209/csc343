@@ -134,7 +134,7 @@ public class Assignment2 {
         	  String query3 = "INSERT INTO Booking VALUES(?, ?, ?, ?, ?, ?);";
         	  PreparedStatement statement3 = this.connection.prepareStatement(query3);
         	  statement3.setInt(1, listingId);
-        	  statement3.setDate(2, date);
+        	  statement3.setDate(2, new java.sql.Date(start.getTime()));
         	  statement3.setInt(3, travelerId);
         	  statement3.setInt(4, numNights);
         	  statement3.setInt(5, numGuests);
