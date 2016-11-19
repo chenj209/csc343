@@ -140,7 +140,7 @@ public class Assignment2 {
         	  statement3.setInt(5, numGuests);
         	  statement3.setInt(6, price);
         	  
-        	  statement3.executeQuery();
+        	  statement3.execute();
         	  return true;
           }
       }
