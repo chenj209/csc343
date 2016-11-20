@@ -240,8 +240,8 @@ public class Assignment2 {
       Assignment2 a2;
       try {
 		    a2 = new Assignment2();
-		    String URL = "jdbc:postgresql://localhost:5432/csc343h-chenj209";
-		    a2.connectDB(URL, "chenj209", "Chenjianda9512");
+		    String URL = "jdbc:postgresql://localhost:5432/csc343h-wucheng7";
+		    a2.connectDB(URL, "wucheng7", "tW697196");
 		    
 //		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //		    java.util.Date start;
@@ -283,7 +283,9 @@ public class Assignment2 {
 //			}
 			
 			ArrayList result = a2.homeownerRecommendation(4000);
-			System.out.println(result);
+		        for(int i = 0; i < result.size(); i ++) {
+                            System.out.println(result.get(i));
+                        }
       } catch (SQLException e) {
 		  // TODO Auto-generated catch block
 		  System.err.println("SQL Exception." +
