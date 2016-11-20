@@ -33,7 +33,7 @@ ORDER BY score DESC;
 CREATE OR REPLACE VIEW TopTen AS
 SELECT homeownerId, score
 FROM Similarity
-LIMIT 4;
+LIMIT 10;
 
 CREATE OR REPLACE VIEW TieTen AS
 SELECT homeownerId, score

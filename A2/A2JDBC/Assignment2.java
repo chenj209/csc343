@@ -146,6 +146,7 @@ public class Assignment2 {
 	  String view6 = "CREATE OR REPLACE VIEW TopTen AS "
 	  		+ "SELECT homeownerId, score "
 	  		+ "FROM Similarity "
+			+ "WHERE score > 0 "
 	  		+ "LIMIT 10;";
 	  PreparedStatement statement6 = this.connection.prepareStatement(view6);
 	  statement6.execute();
