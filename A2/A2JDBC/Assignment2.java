@@ -94,7 +94,7 @@ public class Assignment2 {
 	  statement1.execute();
 	  
 	  String view2 = "CREATE OR REPLACE VIEW TravelerOwnerRating AS "
-	  		+ "SELECT travelerId, owner AS homeownerId, rating  "
+	  		+ "SELECT travelerId, owner AS homeownerId, rating "
 	  		+ "FROM TravelerRating T JOIN Booking B ON T.listingId = B.listingId AND T.startdate = B.startdate "
 	  		+ "JOIN Listing ON T.listingId = Listing.listingId;";
 	  PreparedStatement statement2 = this.connection.prepareStatement(view2);
@@ -120,7 +120,7 @@ public class Assignment2 {
 	  PreparedStatement statement4 = this.connection.prepareStatement(view4);
 	  statement4.setInt(1, homeownerID);
 	  statement4.setInt(2, homeownerID);
-	  statement4.execute();
+	  statement4.executeQuery();
 	  
 	  String view5 = "CREATE OR REPLACE VIEW Similarity AS "
 	  		+ "SELECT homeownerId, sum(product) AS score "
@@ -229,50 +229,50 @@ public class Assignment2 {
 		    a2 = new Assignment2();
 		    String URL = "jdbc:postgresql://localhost:5432/csc343h-chenj209";
 		    a2.connectDB(URL, "chenj209", "Chenjianda9512");
-		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		    java.util.Date start;
-		    System.out.println("These are requests:");
-		    String query4 = "SELECT * FROM BookingRequest";
-	        PreparedStatement statement4 = a2.connection.prepareStatement(query4);
-	        ResultSet requests = statement4.executeQuery();
-	        
-	        while (requests.next()) {
-	        	System.out.println("requestId: " + requests.getInt(1) + " "
-	        	+ "travelerId: " + requests.getInt(2) + " "
-	        	+ "listingId: " + requests.getInt(3)+ " "
-	        	+ "startdate: " + formatter.format(requests.getDate(4)) + " "
-	        	+ "numNights: " + requests.getInt(5) + " "
-	        	+ "numGuests: " + requests.getInt(6) + " "
-	        	+ "offerprice: " + requests.getInt(7));
-	        }
-	        
-		    Scanner scan = new Scanner(System.in);
-		    System.out.println("enter requestid:");
-		    int requestid = scan.nextInt();
-		    System.out.println("enter startdate:");
-		    String startdate = scan.next();
-		    System.out.println("enter numNights:");
-		    int numNights = scan.nextInt();
-		    System.out.println("enter price:");
-		    int price = scan.nextInt();
-		    scan.close();
-			try {
-				start = formatter.parse(startdate);
-				if (a2.booking(requestid, start, numNights, price)) {
-					System.out.println("Booked successfully at price: " + price);
-				} else {
-					System.out.println("Cannot book.");
-				}
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		    
+//		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		    java.util.Date start;
+//		    System.out.println("These are requests:");
+//		    String query4 = "SELECT * FROM BookingRequest";
+//	        PreparedStatement statement4 = a2.connection.prepareStatement(query4);
+//	        ResultSet requests = statement4.executeQuery();
+//	        
+//	        while (requests.next()) {
+//	        	System.out.println("requestId: " + requests.getInt(1) + " "
+//	        	+ "travelerId: " + requests.getInt(2) + " "
+//	        	+ "listingId: " + requests.getInt(3)+ " "
+//	        	+ "startdate: " + formatter.format(requests.getDate(4)) + " "
+//	        	+ "numNights: " + requests.getInt(5) + " "
+//	        	+ "numGuests: " + requests.getInt(6) + " "
+//	        	+ "offerprice: " + requests.getInt(7));
+//	        }
+//	        
+//		    Scanner scan = new Scanner(System.in);
+//		    System.out.println("enter requestid:");
+//		    int requestid = scan.nextInt();
+//		    System.out.println("enter startdate:");
+//		    String startdate = scan.next();
+//		    System.out.println("enter numNights:");
+//		    int numNights = scan.nextInt();
+//		    System.out.println("enter price:");
+//		    int price = scan.nextInt();
+//		    scan.close();
+//			try {
+//				start = formatter.parse(startdate);
+//				if (a2.booking(requestid, start, numNights, price)) {
+//					System.out.println("Booked successfully at price: " + price);
+//				} else {
+//					System.out.println("Cannot book.");
+//				}
+//			} catch (ParseException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
-//			ArrayList result = a2.homeownerRecommendation(4000);
-//			System.out.println(result);
+			ArrayList result = a2.homeownerRecommendation(4000);
+			System.out.println(result);
       } catch (SQLException e) {
 		  // TODO Auto-generated catch block
-    	  System.out.println("1");
 		  System.err.println("SQL Exception." +
 	            "<Message>: " + e.getMessage());
       }
