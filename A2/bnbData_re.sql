@@ -108,10 +108,10 @@ INSERT INTO TravelerRating VALUES (3003, '2010-04-02', 2, 'cm');
 INSERT INTO TravelerRating VALUES (3003, '2010-04-03', 2, 'cm');
 INSERT INTO TravelerRating VALUES (3003, '2010-04-04', 2, 'cm');
 
-INSERT INTO TravelerRating VALUES (3004, '2010-05-01', 1, 'cm');
-INSERT INTO TravelerRating VALUES (3004, '2010-05-02', 1, 'cm');
-INSERT INTO TravelerRating VALUES (3004, '2010-05-03', 1, 'cm');
-INSERT INTO TravelerRating VALUES (3004, '2010-05-04', 1, 'cm');
+INSERT INTO TravelerRating VALUES (3004, '2010-05-01', 2, 'cm');
+INSERT INTO TravelerRating VALUES (3004, '2010-05-02', 2, 'cm');
+INSERT INTO TravelerRating VALUES (3004, '2010-05-03', 2, 'cm');
+INSERT INTO TravelerRating VALUES (3004, '2010-05-04', 2, 'cm');
 
 INSERT INTO TravelerRating VALUES (3005, '2010-06-01', 1, 'cm');
 INSERT INTO TravelerRating VALUES (3005, '2010-06-02', 1, 'cm');
