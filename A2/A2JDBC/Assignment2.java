@@ -85,9 +85,74 @@ public class Assignment2 {
     * @return               a list of the 10 most similar homeowners
  * @throws SQLException 
     */
-   public ArrayList<Integer> homeownerRecommendation(int homeownerID) throws SQLException {
+   public ArrayList homeownerRecommendation(int homeownerID) throws SQLException {
       // Implement this method!
-	  String query= "";
+	  String view1 = "CREATE OR REPLACE VIEW TravelerOwnerMatrix AS "
+	  		+ "SELECT travelerId, homeownerId "
+	  		+ "FROM Traveler, Homeowner;";
+	  PreparedStatement statement1 = this.connection.prepareStatement(view1);
+	  statement1.execute();
+	  
+	  String view2 = "CREATE OR REPLACE VIEW TravelerOwnerRating AS "
+	  		+ "SELECT travelerId, owner AS homeownerId, rating  "
+	  		+ "FROM TravelerRating T JOIN Booking B ON T.listingId = B.listingId AND T.startdate = B.startdate "
+	  		+ "JOIN Listing ON T.listingId = Listing.listingId;";
+	  PreparedStatement statement2 = this.connection.prepareStatement(view2);
+	  statement2.execute();
+	  
+	  String view3 = "CREATE OR REPLACE VIEW AvgRatingMaxtirx AS "
+	  		+ "SELECT T1.travelerId, T1.homeownerId, (SELECT avg(rating) AS AvgRating "
+	  		+ "FROM TravelerOwnerRating "
+	  		+ "WHERE travelerId = T1.travelerId AND homeownerId = T1.homeownerId "
+	  		+ "GROUP BY travelerId, homeownerId "
+	  		+ ") AS avgRating "
+	  		+ "FROM TravelerOwnerMatrix T1;";
+	  PreparedStatement statement3 = this.connection.prepareStatement(view3);
+	  statement3.execute();
+	   
+	  String view4 = "CREATE OR REPLACE VIEW AvgRatingWithProduct AS "
+	  		+ "SELECT homeownerId, (coalesce(avgRating, 0) * (SELECT avgRating "
+	  		+ "FROM AvgRatingMaxtirx "
+	  		+ "WHERE travelerId = A.travelerId "
+	  		+ "AND homeownerId = ?) ) AS product "
+	  		+ "FROM AvgRatingMaxtirx A "
+	  		+ "WHERE homeownerId <> ?;";
+	  PreparedStatement statement4 = this.connection.prepareStatement(view4);
+	  statement4.setInt(1, homeownerID);
+	  statement4.setInt(2, homeownerID);
+	  statement4.execute();
+	  
+	  String view5 = "CREATE OR REPLACE VIEW Similarity AS "
+	  		+ "SELECT homeownerId, sum(product) AS score "
+	  		+ "FROM AvgRatingWithProduct "
+	  		+ "GROUP BY homeownerId "
+	  		+ "ORDER BY score DESC;";
+	  PreparedStatement statement5 = this.connection.prepareStatement(view5);
+	  statement5.execute();
+	  
+	  String view6 = "CREATE OR REPLACE VIEW TopTen AS "
+	  		+ "SELECT homeownerId, score "
+	  		+ "FROM Similarity "
+	  		+ "LIMIT 10;";
+	  PreparedStatement statement6 = this.connection.prepareStatement(view6);
+	  statement6.execute();
+	  
+	  String view7 = "CREATE OR REPLACE VIEW TieTen AS "
+	  		+ "SELECT homeownerId, score "
+	  		+ "FROM Similarity "
+	  		+ "WHERE score = (SELECT score "
+	  		+ "FROM TopTen "
+	  		+ "ORDER BY score ASC "
+	  		+ "LIMIT 1);";
+	  PreparedStatement statement7 = this.connection.prepareStatement(view7);
+	  statement7.execute();
+	  
+	  String query= "SELECT homeownerId, score FROM ( "
+	  		+ "(SELECT homeownerId, score FROM TopTen) "
+	  		+ "UNION "
+	  		+ "(SELECT homeownerId, score FROM TieTen) "
+	  		+ ") foo "
+	  		+ "ORDER BY score DESC;";
 	  PreparedStatement statement = this.connection.prepareStatement(query);
 	  statement.setInt(1, homeownerID);
 	  ResultSet result = statement.executeQuery();
@@ -95,7 +160,7 @@ public class Assignment2 {
 	  while (result.next()) {
 		  topten.add(result.getInt(1));
 	  }
-      return null;
+      return topten;
    }
 
    /**
@@ -202,6 +267,9 @@ public class Assignment2 {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			ArrayList result = a2.homeownerRecommendation(4000);
+			System.out.println(result);
       } catch (SQLException e) {
 		  // TODO Auto-generated catch block
     	  System.out.println("1");
