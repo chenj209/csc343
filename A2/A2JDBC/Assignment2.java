@@ -114,18 +114,18 @@ public class Assignment2 {
 	  		+ "SELECT homeownerId, (coalesce(avgRating, 0) * (SELECT avgRating "
 	  		+ "FROM AvgRatingMaxtirx "
 	  		+ "WHERE travelerId = A.travelerId "
-	  		+ "AND homeownerId = ?) ) AS product "
+	  		+ "AND homeownerId = " + homeownerID + ") ) AS product "
 	  		+ "FROM AvgRatingMaxtirx A "
-	  		+ "WHERE homeownerId <> ?;";
+	  		+ "WHERE homeownerId <> " + homeownerID + ";";
 	  PreparedStatement statement4 = this.connection.prepareStatement(view4);
-	  try {
-		  statement4.setInt(1, homeownerID);
-		  statement4.setInt(2, homeownerID);
-	  } catch (SQLException e) {
-		  // TODO Auto-generated catch block
-		  System.err.println("SQL Exception." +
-	            "<Seting int in view 4>: " + e.getMessage());
-      }
+//	  try {
+//		  statement4.setInt(1, homeownerID);
+//		  statement4.setInt(2, homeownerID);
+//	  } catch (SQLException e) {
+//		  // TODO Auto-generated catch block
+//		  System.err.println("SQL Exception." +
+//	            "<Seting int in view 4>: " + e.getMessage());
+//      }
 	  try {
 		  statement4.executeUpdate();
 	  } catch (SQLException e) {
