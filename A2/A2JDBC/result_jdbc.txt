@@ -1,3 +1,7 @@
+(java) homeownerRecommendation + datahr - All good
+ Expected: [4005, 4006, 4007, 4001, 4004, 4008, 4010, 4003, 4009]
+ Actual: [4005, 4006, 4007, 4001, 4004, 4008, 4010, 4003, 4009]
+
 (java) booking + datab - All good
  Expected: true
  Actual: true
@@ -11,8 +15,4 @@ booking + datab - All good
   (3000, datetime.date(2016, 10, 5), 1000, 2, 1, 120)
  Actual Rows:
   (3000, datetime.date(2016, 10, 5), 1000, 2, 1, 120)
-
-(java) homeownerRecommendation + datahr - homeownerRecommendation() output differs
- Expected: [4005, 4006, 4007, 4001, 4004, 4008, 4010, 4003, 4009]
- Actual: [4007, 4005, 4006, 4001, 4010, 4004, 4008, 4003, 4009]
 

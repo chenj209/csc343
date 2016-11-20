@@ -166,7 +166,7 @@ public class Assignment2 {
 	  		+ "UNION "
 	  		+ "(SELECT homeownerId, score FROM TieTen) "
 	  		+ ") foo "
-	  		+ "ORDER BY score DESC;";
+	  		+ "ORDER BY score DESC, homeownerId ASC;";
 	  PreparedStatement statement = this.connection.prepareStatement(query);
 	  ResultSet result = statement.executeQuery();
 	  ArrayList<Integer> topten = new ArrayList<Integer>();
