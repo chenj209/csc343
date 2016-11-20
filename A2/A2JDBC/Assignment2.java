@@ -127,7 +127,7 @@ public class Assignment2 {
 //	            "<Seting int in view 4>: " + e.getMessage());
 //      }
 	  try {
-		  statement4.executeUpdate();
+		  statement4.execute();
 	  } catch (SQLException e) {
 		  // TODO Auto-generated catch block
 		  System.err.println("SQL Exception." +
@@ -166,7 +166,6 @@ public class Assignment2 {
 	  		+ ") foo "
 	  		+ "ORDER BY score DESC;";
 	  PreparedStatement statement = this.connection.prepareStatement(query);
-	  statement.setInt(1, homeownerID);
 	  ResultSet result = statement.executeQuery();
 	  ArrayList<Integer> topten = new ArrayList<Integer>();
 	  while (result.next()) {
