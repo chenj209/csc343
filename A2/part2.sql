@@ -21,14 +21,14 @@ SELECT homeownerId, (coalesce(avgRating, 0) * (SELECT avgRating
 								  FROM AvgRatingMaxtirx
 								  WHERE travelerId = A.travelerId
 								  AND homeownerId = 4000) ) AS product
-WHERE homeownerId <> 4000
-FROM AvgRatingMaxtirx A;
+FROM AvgRatingMaxtirx A
+WHERE homeownerId <> 4000;
 
 CREATE OR REPLACE VIEW Similarity AS
 SELECT homeownerId, sum(product) AS score
 FROM AvgRatingWithProduct
 GROUP BY homeownerId
-ORDER BY similarity DESC;
+ORDER BY score DESC;
 
 CREATE OR REPLACE VIEW TopTen AS
 SELECT homeownerId, score
@@ -41,10 +41,13 @@ FROM Similarity
 WHERE score = (SELECT score
 			   FROM TopTen
 			   ORDER BY score ASC
-			   LIMIT 1) ten;
+			   LIMIT 1);
 
-SELECT homeownerId, score
-FROM (SELECT * FROM TopTen) UNION (SELECT * FROM TieTen)
+SELECT homeownerId, score FROM (
+      (SELECT homeownerId, score FROM TopTen) 
+	UNION
+      (SELECT homeownerId, score FROM TieTen)
+) foo
 ORDER BY score DESC;
 
 
