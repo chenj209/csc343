@@ -118,14 +118,20 @@ public class Assignment2 {
 	  		+ "FROM AvgRatingMaxtirx A "
 	  		+ "WHERE homeownerId <> ?;";
 	  PreparedStatement statement4 = this.connection.prepareStatement(view4);
-	  statement4.setInt(1, homeownerID);
-	  statement4.setInt(2, homeownerID);
+	  try {
+		  statement4.setInt(1, homeownerID);
+		  statement4.setInt(2, homeownerID);
+	  } catch (SQLException e) {
+		  // TODO Auto-generated catch block
+		  System.err.println("SQL Exception." +
+	            "<Seting int in view 4>: " + e.getMessage());
+      }
 	  try {
 		  statement4.executeUpdate();
 	  } catch (SQLException e) {
 		  // TODO Auto-generated catch block
 		  System.err.println("SQL Exception." +
-	            "<View 4>: " + e.getMessage());
+	            "<Executeing View 4>: " + e.getMessage());
       }
 	  
 	  String view5 = "CREATE OR REPLACE VIEW Similarity AS "
