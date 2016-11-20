@@ -268,8 +268,8 @@ public class Assignment2 {
 				e.printStackTrace();
 			}
 			
-			ArrayList result = a2.homeownerRecommendation(4000);
-			System.out.println(result);
+//			ArrayList result = a2.homeownerRecommendation(4000);
+//			System.out.println(result);
       } catch (SQLException e) {
 		  // TODO Auto-generated catch block
     	  System.out.println("1");
