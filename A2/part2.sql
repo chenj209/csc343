@@ -18,9 +18,9 @@ FROM TravelerOwnerMatrix T1;
 
 CREATE OR REPLACE VIEW AvgRatingWithProduct AS
 SELECT homeownerId, (coalesce(avgRating, 0) * (SELECT avgRating
-								  FROM AvgRatingMaxtirx
-								  WHERE travelerId = A.travelerId
-								  AND homeownerId = 4000) ) AS product
+								               FROM AvgRatingMaxtirx
+								               WHERE travelerId = A.travelerId
+								               AND homeownerId = 4000) ) AS product
 FROM AvgRatingMaxtirx A
 WHERE homeownerId <> 4000;
 

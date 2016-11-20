@@ -83,10 +83,18 @@ public class Assignment2 {
     *
     * @param  homeownerID   id of the homeowner
     * @return               a list of the 10 most similar homeowners
+ * @throws SQLException 
     */
-   public ArrayList homeownerRecommendation(int homeownerID) {
+   public ArrayList<Integer> homeownerRecommendation(int homeownerID) throws SQLException {
       // Implement this method!
-	  
+	  String query= "";
+	  PreparedStatement statement = this.connection.prepareStatement(query);
+	  statement.setInt(1, homeownerID);
+	  ResultSet result = statement.executeQuery();
+	  ArrayList<Integer> topten = new ArrayList<Integer>();
+	  while (result.next()) {
+		  topten.add(result.getInt(1));
+	  }
       return null;
    }
 
