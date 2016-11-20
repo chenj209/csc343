@@ -118,9 +118,10 @@ public class Assignment2 {
 	  		+ "FROM AvgRatingMaxtirx A "
 	  		+ "WHERE homeownerId <> ?;";
 	  PreparedStatement statement4 = this.connection.prepareStatement(view4);
+	  int IDvalue = homeownerID;
 	  try {
-		  statement4.setInt(1, homeownerID);
-		  statement4.setInt(2, homeownerID);
+		  statement4.setInt(1, IDvalue);
+		  statement4.setInt(2, IDvalue);
 	  } catch (SQLException e) {
 		  // TODO Auto-generated catch block
 		  System.err.println("SQL Exception." +
